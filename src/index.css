@@ -1,0 +1,513 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-base: #0A0A0F;
+    --bg-surface: #0F101A;
+    --bg-elevated: #161726;
+    --bg-card: rgba(18, 19, 32, 0.75);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-bright: rgba(0, 240, 255, 0.3);
+    --border-violet: rgba(168, 85, 247, 0.3);
+    
+    --accent-cyan: #00F0FF;
+    --accent-cyan-dim: #00c4d4;
+    --accent-violet: #A855F7;
+    --accent-indigo: #6366F1;
+    
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    
+    --glow-cyan: 0 0 24px rgba(0, 240, 255, 0.25);
+    --glow-violet: 0 0 24px rgba(168, 85, 247, 0.25);
+    --glow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-sans: 'Inter', sans-serif;
+  }
+
+  .light {
+    --bg-base: #F8FAFC;
+    --bg-surface: #FFFFFF;
+    --bg-elevated: #F1F5F9;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-bright: rgba(0, 163, 196, 0.4);
+    --border-violet: rgba(126, 34, 206, 0.3);
+    
+    --accent-cyan: #0284C7;
+    --accent-cyan-dim: #0369A1;
+    --accent-violet: #7E22CE;
+    --accent-indigo: #4F46E5;
+    
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+
+    --glow-cyan: 0 0 20px rgba(2, 132, 199, 0.2);
+    --glow-violet: 0 0 20px rgba(126, 34, 206, 0.2);
+    --glow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Typography Classes */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Security Radar Grid Effect */
+.bg-radar-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.light .bg-radar-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+/* Scanline / Grain Overlay */
+.scanline-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.035;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.4) 3px
+  );
+}
+
+/* Glassmorphism card */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--glow-card);
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--border-bright);
+}
+
+/* Glow effects */
+.glow-cyan-hover:hover {
+  box-shadow: var(--glow-cyan);
+}
+
+.glow-violet-hover:hover {
+  box-shadow: var(--glow-violet);
+}
+
+/* Pulse animation for SOC alerts */
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.animate-radar-ping {
+  animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+}
+
+/* Clean up link defaults */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ========================================================
+   LIGHT MODE DESIGN SYSTEM - COMPLETE RESTYLING
+   ======================================================== */
+
+html.light,
+body.light,
+.light {
+  --bg-base: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F1F5F9;
+  --bg-card: rgba(255, 255, 255, 0.94);
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-bright: rgba(2, 132, 199, 0.4);
+  --border-violet: rgba(124, 58, 237, 0.3);
+  
+  --accent-cyan: #0284C7;
+  --accent-cyan-dim: #0369A1;
+  --accent-violet: #7C3AED;
+  --accent-indigo: #4F46E5;
+  
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  
+  --glow-cyan: 0 4px 20px rgba(2, 132, 199, 0.12);
+  --glow-violet: 0 4px 20px rgba(124, 58, 237, 0.12);
+  --glow-card: 0 8px 30px rgba(15, 23, 42, 0.05);
+
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+/* 1. Hide dirty CRT scanline overlay in light mode */
+.light .scanline-overlay {
+  display: none !important;
+}
+
+/* 2. Glass Panels in Light Mode */
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(15, 23, 42, 0.09) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03) !important;
+  color: #0F172A !important;
+}
+
+.light .glass-panel:hover {
+  border-color: rgba(2, 132, 199, 0.4) !important;
+  box-shadow: 0 10px 30px -4px rgba(2, 132, 199, 0.12), 0 4px 8px -1px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* 3. Typography fix - crisp dark navy/slate headings */
+.light .text-white {
+  color: #0F172A !important;
+}
+
+/* Retain pure white text specifically on filled gradient buttons, badges, and action pills */
+.light a.bg-gradient-to-r,
+.light button.bg-gradient-to-r,
+.light a.bg-cyan-500,
+.light button.bg-cyan-500,
+.light [class*="bg-gradient-to-r"][class*="text-white"],
+.light [class*="bg-purple-500"][class*="text-white"],
+.light [class*="bg-indigo-600"][class*="text-white"],
+.light [class*="bg-cyan-600"][class*="text-white"],
+.light [class*="bg-black"][class*="text-white"],
+.light [class*="bg-cyan-500"][class*="text-black"] {
+  color: #FFFFFF !important;
+}
+
+.light [class*="bg-cyan-500"][class*="text-black"] {
+  color: #000000 !important;
+}
+
+.light .text-slate-100,
+.light .text-slate-200,
+.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+.light .text-slate-400 {
+  color: #475569 !important;
+}
+
+.light .text-slate-500 {
+  color: #64748B !important;
+}
+
+/* Crisp accent text in light mode */
+.light .text-cyan-400,
+.light .text-cyan-300 {
+  color: #0284C7 !important;
+}
+
+.light .text-purple-400,
+.light .text-purple-300 {
+  color: #7C3AED !important;
+}
+
+.light .text-violet-400,
+.light .text-violet-300 {
+  color: #6D28D9 !important;
+}
+
+.light .text-emerald-400 {
+  color: #059669 !important;
+}
+
+.light .text-amber-400 {
+  color: #D97706 !important;
+}
+
+.light .text-red-400 {
+  color: #DC2626 !important;
+}
+
+/* Drop shadow clean-up */
+.light [class*="drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]"],
+.light [class*="drop-shadow-[0_10px_35px_rgba(0,0,0,0.8)]"] {
+  filter: none !important;
+}
+
+/* 4. Fix Hardcoded Dark Backgrounds */
+.light [class*="bg-[#0C091A]"],
+.light [class*="bg-[#0D091B]"],
+.light [class*="bg-[#12101F]"],
+.light [class*="bg-[#161226]"],
+.light [class*="bg-[#0A0714]"],
+.light [class*="bg-[#18112C]"],
+.light [class*="bg-[#0A0716]"],
+.light [class*="bg-[#0F101E]"],
+.light [class*="bg-[#0C0D18]"],
+.light [class*="bg-[#090A12]"],
+.light [class*="bg-[#06060C]"],
+.light [class*="bg-[#080811]"],
+.light [class*="bg-[#05050A]"] {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* 5. Hero Atmosphere in Light Mode */
+.light .bg-radial,
+.light [class*="bg-radial"] {
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.12) 0%, rgba(224, 231, 255, 0.35) 45%, #F8FAFC 85%) !important;
+}
+
+.light .to-\[\#080811\] {
+  --tw-gradient-to: #F8FAFC !important;
+}
+
+.light .via-\[\#130924\]\/50 {
+  --tw-gradient-stops: rgba(168, 85, 247, 0.1), rgba(224, 231, 255, 0.35), #F8FAFC !important;
+}
+
+.light .from-violet-900\/35 {
+  --tw-gradient-from: rgba(168, 85, 247, 0.15) !important;
+}
+
+/* 6. Fix subtle borders and white translucent backgrounds */
+.light .border-white\/10,
+.light .border-white\/5,
+.light .border-white\/15,
+.light .border-white\/20,
+.light .border-white\/30 {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.light .bg-white\/\[0\.02\],
+.light .bg-white\/\[0\.03\],
+.light .bg-white\/\[0\.04\],
+.light .bg-white\/5,
+.light .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.035) !important;
+  color: #1E293B !important;
+}
+
+.light .hover\:bg-white\/5:hover,
+.light .hover\:bg-white\/10:hover {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+}
+
+/* 7. Fix black overlays in light mode */
+.light .bg-black\/40,
+.light .bg-black\/50,
+.light .bg-black\/60,
+.light .bg-black\/70,
+.light .bg-black\/80 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #0F172A !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05) !important;
+}
+
+.light .to-black\/40 {
+  --tw-gradient-to: rgba(248, 250, 252, 0.9) !important;
+}
+
+/* 8. Badges and Chips in Light Mode */
+.light .bg-purple-950\/60,
+.light .bg-purple-950\/50,
+.light .bg-purple-950\/40,
+.light .bg-purple-950\/80,
+.light .bg-purple-950\/20 {
+  background-color: rgba(243, 232, 255, 0.95) !important;
+  color: #7E22CE !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+.light .bg-cyan-950\/60,
+.light .bg-cyan-950\/50,
+.light .bg-cyan-950\/40,
+.light .bg-cyan-950\/20 {
+  background-color: rgba(224, 242, 254, 0.95) !important;
+  color: #0369A1 !important;
+  border-color: rgba(14, 165, 233, 0.3) !important;
+}
+
+.light .bg-violet-950\/60,
+.light .bg-violet-950\/50,
+.light .bg-violet-950\/40,
+.light .bg-violet-950\/20 {
+  background-color: rgba(237, 233, 254, 0.95) !important;
+  color: #6D28D9 !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+.light .bg-emerald-950\/60,
+.light .bg-emerald-950\/40,
+.light .bg-emerald-950\/20 {
+  background-color: rgba(209, 250, 229, 0.95) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.light .bg-red-950\/60,
+.light .bg-red-950\/40,
+.light .bg-red-950\/20 {
+  background-color: rgba(254, 226, 226, 0.95) !important;
+  color: #B91C1C !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+/* 9. Header / Navbar in Light Mode */
+.light header {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+.light nav {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+/* 10. Footer in Light Mode */
+.light footer {
+  background-color: #FFFFFF !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: #334155 !important;
+}
+
+/* 11. Command Palette & Terminal Modal */
+.light [role="dialog"],
+.light .z-\[9990\] > div:last-child {
+  background-color: #FFFFFF !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15) !important;
+  color: #0F172A !important;
+}
+
+.light .z-\[9995\] > div:last-child {
+  background-color: #0F172A !important;
+  color: #F8FAFC !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.3) !important;
+}
+
+.light .z-\[9995\] .text-white {
+  color: #FFFFFF !important;
+}
+
+/* 12. Giant Watermark text in FlyingCardsSection */
+.light [class*="xl:text-[13rem]"],
+.light [class*="lg:text-9xl"] {
+  color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.light [class*="xl:text-[13rem]"] span,
+.light [class*="lg:text-9xl"] span {
+  background-image: linear-gradient(to bottom, #1E293B, #475569, rgba(147, 51, 234, 0.4)) !important;
+  color: transparent !important;
+}
+
+/* 13. Custom Cursor fix in Light Mode */
+.light .mix-blend-screen {
+  mix-blend-mode: normal !important;
+}
+
+.light .z-\[9999\] {
+  background-color: #0284C7 !important;
+}
+
+.light .z-\[9998\] {
+  border-color: rgba(2, 132, 199, 0.6) !important;
+}
+
+/* 14. Inputs & Forms */
+.light input,
+.light textarea {
+  color: #0F172A !important;
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* 15. Scrollbar in Light Mode */
+.light ::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.18);
+  border-radius: 3px;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #0284C7;
+}
